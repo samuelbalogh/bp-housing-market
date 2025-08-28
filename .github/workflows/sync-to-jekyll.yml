@@ -1,0 +1,210 @@
+name: Sync Budapest Analysis to Jekyll
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'budapest-housing-analysis.md'
+      - 'charts.js'
+      - 'index.html'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  sync-to-jekyll:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout finance repository
+      uses: actions/checkout@v4
+      with:
+        path: finance
+
+    - name: Checkout Jekyll repository
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ secrets.JEKYLL_REPOSITORY }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        path: jekyll-site
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Create timestamp
+      id: timestamp
+      run: echo "timestamp=$(date +%Y%m%d_%H%M%S)" >> $GITHUB_OUTPUT
+
+    - name: Create backup directory
+      run: |
+        mkdir -p jekyll-site/backups/${{ steps.timestamp.outputs.timestamp }}
+
+    - name: Backup existing files
+      run: |
+        if [ -f "jekyll-site/_posts/2024-08-28-budapest-housing-analysis.md" ]; then
+          cp jekyll-site/_posts/2024-08-28-budapest-housing-analysis.md jekyll-site/backups/${{ steps.timestamp.outputs.timestamp }}/
+        fi
+        if [ -f "jekyll-site/assets/js/budapest-charts.js" ]; then
+          cp jekyll-site/assets/js/budapest-charts.js jekyll-site/backups/${{ steps.timestamp.outputs.timestamp }}/
+        fi
+
+    - name: Create Jekyll post with updated content
+      run: |
+        # Create _posts directory if it doesn't exist
+        mkdir -p jekyll-site/_posts
+        
+        # Create the Jekyll post with front matter
+        cat > jekyll-site/_posts/2024-08-28-budapest-housing-analysis.md << 'EOF'
+        ---
+        layout: post
+        title: "Budapest Housing Market Analysis: 2009-2025"
+        date: 2024-08-28
+        last_modified_at: 2025-08-28
+        categories: [finance, real-estate, analysis]
+        tags: [budapest, housing, sp500, inflation, investment, inner-districts, psychology]
+        author: Samuel Balogh
+        excerpt: "A comprehensive analysis of Budapest housing market performance over 16 years, with focus on inner districts and psychological factors influencing real estate investment preferences in Eastern Europe."
+        ---
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
+        EOF
+        
+        # Append the main analysis content (excluding the title since it's in front matter)
+        tail -n +3 finance/budapest-housing-analysis.md >> jekyll-site/_posts/2024-08-28-budapest-housing-analysis.md
+
+    - name: Setup chart assets
+      run: |
+        # Create assets directory structure
+        mkdir -p jekyll-site/assets/js
+        mkdir -p jekyll-site/assets/css
+        
+        # Copy charts.js to Jekyll assets
+        cp finance/charts.js jekyll-site/assets/js/budapest-charts.js
+
+    - name: Create CSS for chart styling
+      run: |
+        cat > jekyll-site/assets/css/budapest-analysis.css << 'EOF'
+        /* Budapest Housing Analysis Chart Styles */
+        .chart-container {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fafafa;
+            min-height: 400px;
+        }
+        
+        #performance-chart-container,
+        #inflation-chart-container,
+        #comparison-chart-container,
+        #districts-chart-container {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fafafa;
+            min-height: 400px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .chart-container {
+                margin: 1rem 0;
+                padding: 0.5rem;
+            }
+        }
+        EOF
+
+    - name: Create finance section page
+      run: |
+        mkdir -p jekyll-site/finance
+        
+        cat > jekyll-site/finance/index.html << 'EOF'
+        ---
+        layout: default
+        title: "Finance Analysis"
+        ---
+        
+        <div class="container">
+            <h1>Finance Analysis</h1>
+            
+            <div class="analysis-links">
+                <h2>Budapest Housing Market Analysis</h2>
+                <p>A comprehensive analysis of Budapest housing market performance over 16 years, with focus on inner districts and psychological factors influencing real estate investment preferences in Eastern Europe.</p>
+                
+                <a href="{{ '/2024/08/28/budapest-housing-analysis/' | relative_url }}" class="btn btn-primary">
+                    Read Full Analysis
+                </a>
+                
+                <div class="key-findings">
+                    <h3>Key Findings:</h3>
+                    <ul>
+                        <li>Budapest housing: ~250% return (2010-2025)</li>
+                        <li>Inner districts premium: 40-60% higher prices</li>
+                        <li>S&P 500: ~450-500% return (2009-2025)</li>
+                        <li>Psychological factors drive real estate preference</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        EOF
+
+    - name: Validate JavaScript syntax
+      run: |
+        if node -c jekyll-site/assets/js/budapest-charts.js; then
+          echo "✅ Charts JavaScript syntax is valid"
+        else
+          echo "❌ Charts JavaScript has syntax errors"
+          exit 1
+        fi
+
+    - name: Check file sizes
+      run: |
+        echo "📊 File sizes:"
+        echo "   Analysis: $(wc -c < jekyll-site/_posts/2024-08-28-budapest-housing-analysis.md) bytes"
+        echo "   Charts: $(wc -c < jekyll-site/assets/js/budapest-charts.js) bytes"
+        echo "   CSS: $(wc -c < jekyll-site/assets/css/budapest-analysis.css) bytes"
+
+    - name: Commit and push changes to Jekyll repository
+      run: |
+        cd jekyll-site
+        
+        # Configure git
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        
+        # Add all changes
+        git add .
+        
+        # Check if there are changes to commit
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          # Commit with descriptive message
+          git commit -m "🤖 Auto-sync Budapest housing analysis from finance repo
+          
+          - Updated analysis with 2025 data
+          - Added inner districts focus (5th, 6th, 7th, 11th)
+          - Added sociological and psychological factors section
+          - Updated charts with 2025 data and districts comparison
+          - Added comprehensive academic citations
+          
+          Auto-synced from: ${{ github.repository }}@${{ github.sha }}"
+          
+          # Push to trigger Vercel build
+          git push origin main
+        fi
+
+    - name: Create deployment summary
+      run: |
+        echo "🚀 Auto-sync completed successfully!"
+        echo "📁 Jekyll Repository: ${{ secrets.JEKYLL_REPOSITORY }}"
+        echo "📄 Post Updated: _posts/2024-08-28-budapest-housing-analysis.md"
+        echo "📊 Charts Updated: assets/js/budapest-charts.js"
+        echo "🎨 Styles Created: assets/css/budapest-analysis.css"
+        echo "📂 Section Created: finance/index.html"
+        echo "💾 Backup: backups/${{ steps.timestamp.outputs.timestamp }}/"
+        echo ""
+        echo "🔄 Vercel will automatically build and deploy the updated site"
+        echo "🌐 Your analysis will be available at: https://samu.space/2024/08/28/budapest-housing-analysis/"
