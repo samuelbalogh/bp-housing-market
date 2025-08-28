@@ -14,6 +14,7 @@ The main analysis document containing:
 - Current market trends
 - Future predictions
 - Interactive chart placeholders
+- **NEW**: Comprehensive data sources and refresh instructions
 
 ### 📊 `charts.js`
 Interactive Chart.js visualizations including:
@@ -21,105 +22,190 @@ Interactive Chart.js visualizations including:
 - **Inflation Chart**: Hungary inflation rates over time
 - **Comparison Chart**: Inflation-adjusted performance comparison
 - Responsive design and interactive tooltips
-- Clean, modular code structure
+- Clean, modular code with error handling
+- **NEW**: Enhanced configuration for better rendering
 
 ### 🌐 `index.html`
-Main HTML file that:
-- Renders the markdown content
-- Loads Chart.js and Marked.js libraries
-- Provides responsive styling
-- Creates an interactive web experience
+Web interface that:
+- Renders the markdown content with proper styling
+- Displays interactive charts
+- Provides responsive design for all devices
+- Includes modern CSS styling and typography
 
-## How to Use
+### 📋 `README.md`
+Complete documentation including:
+- File descriptions and usage instructions
+- Setup and running instructions
+- **NEW**: Data refresh procedures and automation
 
-### Option 1: Web Browser (Recommended)
-1. Ensure all files are in the same directory
-2. Open `index.html` in a modern web browser
-3. The analysis will load with interactive charts
+### 🔄 `data-refresh-guide.md`
+**NEW**: Comprehensive guide for updating data including:
+- Step-by-step refresh process
+- Data source URLs and contact information
+- Recommended update schedule
+- Data validation procedures
+- Quality checklist
 
-### Option 2: Local Server
-For better performance, serve the files locally:
+### 🛠️ `data-refresh.sh`
+**NEW**: Automated refresh script that:
+- Creates timestamped backups
+- Validates file integrity
+- Provides data source links
+- Checks JavaScript syntax
+- Guides through update process
+
+## Quick Start
+
+### 1. View the Analysis
 ```bash
-# Using Python 3
-python -m http.server 8000
+# Start local server
+python3 -m http.server 8000
 
-# Using Node.js (if you have http-server installed)
-npx http-server
-
-# Using PHP
-php -S localhost:8000
+# Open in browser
+open http://localhost:8000
 ```
 
-Then visit `http://localhost:8000`
+### 2. Update Data (When Needed)
+```bash
+# Run the refresh script
+./data-refresh.sh
 
-## Key Features
+# Follow the guided process to update data sources
+```
 
-### Interactive Charts
-- **Performance Comparison**: Visual comparison of Budapest housing vs S&P 500
-- **Inflation Analysis**: Color-coded inflation rates with tooltips
-- **Real Returns**: Inflation-adjusted performance comparison
+## Data Sources
 
-### Responsive Design
-- Mobile-friendly layout
-- Adaptive chart sizing
-- Clean, modern styling
+### Primary Sources
+- **Hungarian Central Statistical Office (KSH)**: Housing price indices
+- **Hungarian National Bank (MNB)**: House price indices and economic data
+- **Yahoo Finance**: S&P 500 historical data
+- **World Bank**: Hungary inflation rates
 
-### Data Sources
-- Hungarian Central Statistical Office (KSH)
-- Hungarian National Bank (MNB)
-- S&P 500 Historical Data
-- World Bank Inflation Data
+### Secondary Sources
+- **Global Property Guide**: International comparisons
+- **Trading Economics**: Real-time economic data
+- **S&P Global**: Official S&P 500 data
 
-## Technical Details
+## Data Refresh Process
 
-### Libraries Used
-- **Chart.js**: Interactive charting library
-- **Marked.js**: Markdown to HTML converter
-- **Vanilla JavaScript**: No framework dependencies
+### Automated Refresh
+```bash
+# Run the automated refresh script
+./data-refresh.sh
+```
 
-### Browser Compatibility
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- Requires JavaScript enabled
-- Responsive design for mobile devices
+### Manual Refresh
+1. **Update Housing Data**: Visit KSH and MNB websites
+2. **Update S&P 500**: Download from Yahoo Finance
+3. **Update Inflation**: Check World Bank data
+4. **Modify Code**: Update arrays in `charts.js`
+5. **Update Analysis**: Revise text in markdown file
+6. **Test**: Verify charts render correctly
 
-## Data Notes
+### Recommended Schedule
+- **Monthly**: Check inflation and S&P 500 data
+- **Quarterly**: Update housing market indices
+- **Annually**: Comprehensive review and analysis
 
-### Budapest Housing Data
-- Price index based on 2015 = 100
-- Includes both new and second-hand properties
-- Data from official Hungarian sources
+## Features
 
-### S&P 500 Data
-- Total returns including dividends
-- Cumulative performance from 2009
-- Inflation-adjusted calculations included
+### 📈 Interactive Charts
+- **Real-time rendering** with Chart.js
+- **Responsive design** for all screen sizes
+- **Interactive tooltips** with detailed data points
+- **Color-coded data** for easy interpretation
+- **Professional styling** with proper spacing
 
-### Inflation Data
-- Hungary consumer price index
-- US inflation for S&P 500 comparison
-- Annual rates used for adjustments
+### 📊 Data Visualization
+- **Performance comparison** between Budapest housing and S&P 500
+- **Inflation analysis** with color-coded periods
+- **Real returns calculation** accounting for inflation
+- **Trend analysis** with smooth line charts
 
-## Customization
+### 🔧 Technical Features
+- **Clean code architecture** with modular functions
+- **Error handling** and validation
+- **Cross-browser compatibility**
+- **Mobile-responsive design**
+- **Fast loading** with optimized assets
 
-### Adding New Charts
-1. Add chart configuration to `charts.js`
-2. Include canvas element in markdown
-3. Update chart initialization
+## File Structure
 
-### Modifying Data
-- Edit the `chartData` object in `charts.js`
-- Update markdown content as needed
-- Refresh browser to see changes
+```
+finance/
+├── budapest-housing-analysis.md    # Main analysis document
+├── charts.js                       # Interactive chart code
+├── index.html                      # Web interface
+├── README.md                       # This documentation
+├── data-refresh-guide.md           # Data update instructions
+└── data-refresh.sh                 # Automated refresh script
+```
 
-### Styling Changes
-- Modify CSS in `index.html`
-- Chart colors can be changed in `charts.js`
-- Responsive breakpoints in CSS
+## Technical Requirements
+
+### Browser Support
+- Chrome 60+
+- Firefox 55+
+- Safari 12+
+- Edge 79+
+
+### Dependencies
+- Chart.js (loaded via CDN)
+- Marked.js (loaded via CDN)
+- Modern CSS features
+
+### Local Development
+- Python 3.x (for local server)
+- Bash shell (for refresh script)
+- Node.js (optional, for syntax validation)
+
+## Troubleshooting
+
+### Charts Not Displaying
+1. Ensure you're using a local server (not file:// protocol)
+2. Check browser console for JavaScript errors
+3. Verify Chart.js is loading correctly
+4. Check that canvas elements exist in HTML
+
+### Data Update Issues
+1. Run `./data-refresh.sh` to validate files
+2. Check JavaScript syntax with `node -c charts.js`
+3. Verify data array lengths match label arrays
+4. Test with local server after updates
+
+### Performance Issues
+1. Clear browser cache
+2. Check for large data arrays
+3. Verify Chart.js version compatibility
+4. Monitor browser console for errors
+
+## Contributing
+
+### Data Updates
+1. Follow the data refresh guide
+2. Create backups before making changes
+3. Validate all data sources
+4. Test thoroughly before publishing
+
+### Code Improvements
+1. Maintain clean code principles
+2. Add error handling for new features
+3. Test across different browsers
+4. Update documentation accordingly
 
 ## License
 
-This analysis is for educational and research purposes. Data sources are cited throughout the document.
+This analysis is provided for educational and research purposes. Data sources are credited to their respective organizations.
+
+## Contact
+
+For technical issues or data questions:
+- Check the data refresh guide for source contacts
+- Review troubleshooting section for common issues
+- Validate data using the automated script
 
 ---
 
-*Created with Chart.js and Marked.js*
+**Last Updated**: August 2024  
+**Data Current As**: Q2 2024  
+**Next Review**: November 2024

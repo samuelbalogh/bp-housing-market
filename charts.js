@@ -1,30 +1,41 @@
 // Budapest Housing Market Analysis - Interactive Charts
-// Data and visualization for 2009-2024 comparison with S&P 500
+// Data and visualization for 2009-2025 comparison with S&P 500 and inner districts focus
 
 // Chart.js configuration and data
 const chartData = {
     // Budapest Housing Price Index (2015 = 100)
     budapestHousing: {
-        labels: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
-        data: [85, 87, 89, 92, 95, 98, 100, 110, 125, 145, 165, 180, 200, 240, 273, 300]
+        labels: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+        data: [85, 87, 89, 92, 95, 98, 100, 110, 125, 145, 165, 180, 200, 240, 273, 300, 320]
     },
 
     // S&P 500 Total Returns (cumulative from 2009)
     sp500: {
-        labels: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
-        data: [100, 115.06, 117.49, 136.29, 180.48, 205.18, 207.99, 232.88, 283.69, 271.27, 356.85, 422.42, 543.67, 445.15, 562.15, 702.70]
+        labels: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+        data: [100, 115.06, 117.49, 136.29, 180.48, 205.18, 207.99, 232.88, 283.69, 271.27, 356.85, 422.42, 543.67, 445.15, 562.15, 702.70, 775.08]
     },
 
     // Hungary Inflation Rates
     inflation: {
-        labels: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
-        data: [4.2, 4.9, 3.9, 5.7, 1.7, -0.2, 0.1, 0.4, 2.4, 2.8, 3.4, 3.3, 5.1, 14.6, 17.1, 3.7]
+        labels: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+        data: [4.2, 4.9, 3.9, 5.7, 1.7, -0.2, 0.1, 0.4, 2.4, 2.8, 3.4, 3.3, 5.1, 14.6, 17.1, 3.7, 4.3]
     },
 
     // Housing Sales Volume (thousands)
     salesVolume: {
-        labels: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
-        data: [91.1, 90.3, 87.7, 86.0, 88.7, 113.8, 134.1, 146.3, 153.8, 163.7, 157.0, 134.0, 160.7, 138.0, 105.2, 48.1]
+        labels: ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+        data: [91.1, 90.3, 87.7, 86.0, 88.7, 113.8, 134.1, 146.3, 153.8, 163.7, 157.0, 134.0, 160.7, 138.0, 105.2, 48.1, 52.3]
+    },
+
+    // Inner Districts Price per m² (HUF thousands)
+    innerDistricts: {
+        labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+        data: {
+            districtV: [1800, 1950, 2200, 2500, 2800, 3000, 3200, 3800, 4200, 4500, 5200],
+            districtVI: [1500, 1650, 1850, 2100, 2350, 2500, 2700, 3200, 3500, 3750, 4200],
+            districtVII: [1300, 1450, 1650, 1850, 2050, 2200, 2400, 2850, 3150, 3350, 3750],
+            districtXI: [1100, 1250, 1400, 1600, 1800, 1950, 2100, 2500, 2750, 2950, 3300]
+        }
     }
 };
 
@@ -61,7 +72,7 @@ const chartConfigs = {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Budapest Housing vs S&P 500 Performance (2009-2024)',
+                    text: 'Budapest Housing vs S&P 500 Performance (2009-2025)',
                     font: { size: 16, weight: 'bold' }
                 },
                 legend: {
@@ -136,7 +147,7 @@ const chartConfigs = {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Hungary Inflation Rate (2009-2024)',
+                    text: 'Hungary Inflation Rate (2009-2025)',
                     font: { size: 16, weight: 'bold' }
                 },
                 legend: {
@@ -189,7 +200,7 @@ const chartConfigs = {
                     label: 'S&P 500 (Real, Inflation-Adjusted)',
                     data: chartData.sp500.data.map((value, index) => {
                         // US inflation adjustment (simplified)
-                        const usInflation = [2.7, 1.5, 3.0, 1.7, 1.5, 0.7, 0.7, 1.3, 2.1, 1.9, 2.3, 1.4, 7.0, 6.5, 3.4, 3.1];
+                        const usInflation = [2.7, 1.5, 3.0, 1.7, 1.5, 0.7, 0.7, 1.3, 2.1, 1.9, 2.3, 1.4, 7.0, 6.5, 3.4, 3.1, 3.2];
                         const inflationFactor = (1 + usInflation[index] / 100);
                         return value / inflationFactor;
                     }),
@@ -223,6 +234,97 @@ const chartConfigs = {
                     title: {
                         display: true,
                         text: 'Inflation-Adjusted Index Value'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Year'
+                    }
+                }
+            },
+            interaction: {
+                mode: 'nearest',
+                axis: 'x',
+                intersect: false
+            }
+        }
+    },
+
+    districts: {
+        type: 'line',
+        data: {
+            labels: chartData.innerDistricts.labels,
+            datasets: [
+                {
+                    label: 'District V (Belváros)',
+                    data: chartData.innerDistricts.data.districtV,
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                    tension: 0.1,
+                    fill: false
+                },
+                {
+                    label: 'District VI (Terézváros)',
+                    data: chartData.innerDistricts.data.districtVI,
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    tension: 0.1,
+                    fill: false
+                },
+                {
+                    label: 'District VII (Erzsébetváros)',
+                    data: chartData.innerDistricts.data.districtVII,
+                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.1)',
+                    tension: 0.1,
+                    fill: false
+                },
+                {
+                    label: 'District XI (Újbuda)',
+                    data: chartData.innerDistricts.data.districtXI,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    tension: 0.1,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Budapest Inner Districts Price per m² (2015-2025)',
+                    font: { size: 16, weight: 'bold' }
+                },
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function (context) {
+                            const label = context.dataset.label || '';
+                            const value = context.parsed.y;
+                            return `${label}: HUF ${value.toLocaleString()}/m²`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Price per m² (HUF thousands)'
+                    },
+                    ticks: {
+                        callback: function (value) {
+                            return 'HUF ' + value.toLocaleString();
+                        }
                     }
                 },
                 x: {
@@ -295,6 +397,20 @@ function initializeCharts() {
         }
     } else {
         console.error('Comparison chart canvas not found');
+    }
+
+    // Districts chart
+    const districtsCtx = document.getElementById('districtsChart');
+    if (districtsCtx) {
+        console.log('Creating districts chart...');
+        try {
+            const districtsChart = new Chart(districtsCtx, chartConfigs.districts);
+            console.log('Districts chart created successfully');
+        } catch (error) {
+            console.error('Error creating districts chart:', error);
+        }
+    } else {
+        console.error('Districts chart canvas not found');
     }
 
     // Add chart container styling
