@@ -255,6 +255,7 @@ As Eastern European economies mature, policy changes may encourage more diversif
   - URL: https://www.mdpi.com/2075-5309/15/10/1729
 - **ResearchGate (2025)**: "Psychological Factors Affecting Purchasing Decisions on the Real Estate Market" - Behavioral analysis of real estate investment decisions
   - URL: https://www.researchgate.net/publication/332389864_Psychological_Factors_Affecting_Purchasing_Decisions_on_the_Real_Estate_Market
+  - Alternative: https://www.researchgate.net/publication/281197288_A_model_of_real_estate_and_psychological_factors_in_decision-making_to_buy_real_estate
 
 **Behavioral Economics Research:**
 - **Shiller (2013)**: Nobel Prize-winning research on speculative asset prices and market psychology
@@ -263,6 +264,7 @@ As Eastern European economies mature, policy changes may encourage more diversif
   - URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC8586500/
 - **Almansour et al. (2023)**: "Behavioral finance factors and investment decisions" - Analysis of psychological factors in financial decision-making
   - URL: https://www.tandfonline.com/doi/full/10.1080/23322039.2023.2239032
+  - Alternative: https://www.econstor.eu/bitstream/10419/304152/1/10.1080_23322039.2023.2239032.pdf
 
 **Cultural and Historical Context:**
 - **Lux & Sunega (2014)**: Research on post-communist housing preferences and privatization effects
@@ -283,6 +285,7 @@ As Eastern European economies mature, policy changes may encourage more diversif
 **Additional Market Research Sources:**
 - **Global Property Guide (2025)**: Hungary's Residential Property Market Analysis 2025
   - URL: https://www.globalpropertyguide.com/europe/hungary/price-history
+  - Note: Site may require registration for full access
 - **Investropa (2025)**: Budapest Real Estate Market Statistics and Analysis
   - URL: https://investropa.com/blogs/news/budapest-real-estate-market
 - **Von Poll Real Estate (2025)**: Budapest Real Estate Market Analysis
@@ -291,6 +294,13 @@ As Eastern European economies mature, policy changes may encourage more diversif
   - URL: https://www.mnb.hu/en/publications/reports/housing-market-report
 - **Hungarian Central Statistical Office (KSH)**: Housing Statistics
   - URL: https://www.ksh.hu/housing
+
+**Link Verification Notes:**
+- All links were verified as of August 2025
+- Some academic journal links may require institutional access
+- ResearchGate links may require free account registration
+- Government and official sources (MNB, KSH) are publicly accessible
+- Market research sources (Investropa, Von Poll) are publicly accessible
 
 ## Interactive Charts
 
